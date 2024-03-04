@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,euscript}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amscd}
+
+\usepackage{courier}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\title{Project 2}
+\date{}
+\author{Moses Horwitz, Louis Feinberg, Jerome Howitz}
+%nyuk
+%nyuk
+%nyuk
+
+\maketitle 
+
+\section*{The Idea}
+
+This method generates two \emph{coterminal rays} by setting \(y\) as a function of \(x\) using two pieces:
+
+$$
+y = 
+\left\{
+\begin{array}{ll}
+a (x - u) + v & \text{if } x < u \\
+b (x - u) + v & \text{if } x \ge u \\
+\end{array}
+\right.
+$$
+
+This will not intersect the given points. The objective is to minimize the sum of the vertical squared distances between the points at the line above or below it. This property is dependent on the Cartesian axes, and is not consistent under rotation. It takes the simplicity of a best-fit line and gives it more flexibility to accommodate a ``bend" in the data.
+
+\section*{The Computation}
+
+The collection of data is split by a vertical line between them, bisecting halfway between the extreme ends and dividing the data points into two subsets. Once this is done, a best-fit line is made separately for the each subset. We observe where they intersect, and set the \(x\)-value to \(u\). 
+
+
+If this intersection happens to fall between the two subsets, we keep it and use the resulting rays. If it does not, we split along \(u\) to make two new subsets.
+
+If we have fewer than two points in the left subset, we just set \(u = x_2\), make a best-fit line for \(\{x_2, ..., x_n\}\) on the right, and set the left segment to pass through \((u,v)\) and \((x_1, y_1)\). We do a similar act if there are fewer than two points on the right. 
+
+
+We repeat the process, then use whatever results transpire after the third iteration.
+
+See attached for the code. It is written in Python, and uses the given \texttt{best\char`_fit\char`_line} function.
+
+\section*{The Results}
+
+
+% tikz is a widely-used package for LaTeX with a LOT of flexibilty.
+% These diagrams use small circles to mark the points.
+% The coordinates of the points and lines are in parentheses
+% fbox gives it a frame
+
+Graph 1:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,2) circle [radius=0.05];
+		\draw[fill] (2,1) circle [radius=0.05];
+		\draw[fill] (3,0) circle [radius=0.05];
+		\draw[fill] (5,1) circle [radius=0.05];
+		\draw[fill] (6,2) circle [radius=0.05];
+		\draw[fill] (9,0) circle [radius=0.05];
+		\draw[-] (2,0.9) -- (0,2);
+		\draw[-] (2,0.9) -- (9,1.1333333);
+		\end{tikzpicture}
+	}
+\end{center}
+
+
+Graph 2:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,0) circle [radius=0.05];
+		\draw[fill] (1,1) circle [radius=0.05];
+		\draw[fill] (2,2) circle [radius=0.05];
+		\draw[fill] (4,4) circle [radius=0.05];
+		\draw[fill] (5,3) circle [radius=0.05];
+		\draw[fill] (6,1) circle [radius=0.05];
+		\draw[-] (0,0) -- (4.3333333,4.3333333);
+		\draw[-] (6,1) -- (4.3333333,4.3333333);
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 3:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,2) circle [radius=0.05];
+		\draw[fill] (1,1) circle [radius=0.05];
+		\draw[fill] (2,2) circle [radius=0.05];
+		\draw[fill] (4,5) circle [radius=0.05];
+		\draw[fill] (5,6) circle [radius=0.05];
+		\draw[fill] (9,5) circle [radius=0.05];
+		\draw[fill] (10,5) circle [radius=0.05];
+		\draw[-] (0,1) -- (5.6444444,5.8380952);
+		\draw[-] (10,4.90476) -- (5.6444444,5.8380952);
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 4:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,0) circle [radius=0.05];
+		\draw[fill] (1,0) circle [radius=0.05];
+		\draw[fill] (2,0) circle [radius=0.05];
+		\draw[fill] (3,0) circle [radius=0.05];
+		\draw[fill] (4,2) circle [radius=0.05];
+		\draw[fill] (5,0) circle [radius=0.05];
+		\draw[fill] (6,0) circle [radius=0.05];
+		\draw[fill] (7,0) circle [radius=0.05];
+		\draw[-] (0,0.0714285) -- (6, 0.5);
+		\draw[-] (7,0) -- (6, 0.5);
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 5:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,5) circle [radius=0.05];
+		\draw[fill] (1,2) circle [radius=0.05];
+		\draw[fill] (2,1) circle [radius=0.05];
+		\draw[fill] (4,0) circle [radius=0.05];
+		\draw[fill] (6,1) circle [radius=0.05];
+		\draw[fill] (7,3) circle [radius=0.05];
+		\draw[fill] (9,4) circle [radius=0.05];
+		\draw[fill] (10,2) circle [radius=0.05];
+		\draw[-] (0,4.666667) -- (2.4734982, -0.280330);
+		\draw[-] (10,3.3508771) -- (2.4734982, -0.280330);
+		\end{tikzpicture}
+	}
+\end{center}
+
+\section*{Possible Issues}
+
+We have not proven that this will assuredly find the \emph{best corner location}, in terms of least squared distances. 
+
+We do not have a full understanding of how this iteration works; it is possible that it may not settle in certain cases.
+
+This method breaks down if it is ever given two parallel lines. If the lines are near-parallel, the corner will be thrown to one side and may give a less than optimal result. 
+
+\section*{Possible Extensions}
+
+This method might be extended to other best-fit functions, though finding intersections might be more difficult.
+
+One possible idea is to allow for more than one corner, placing three or more coterminal rays/segments through the data.
+
+
+\end{document}

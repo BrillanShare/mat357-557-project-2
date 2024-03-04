@@ -1,0 +1,280 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,euscript}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amscd}
+
+\usepackage{courier}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+
+\usepackage{tikz} 
+
+\begin{document}
+
+\title{Project 2}
+\date{}
+\author{Archie Mead}
+%don't mess with my circles
+
+\maketitle 
+
+\section*{The Idea}
+
+This method interpolates between points by drawing arcs of \emph{circles} that connect groups of three of them. The subsets of points \((x_{2i}, y_{2i})\), \((x_{2i+1}, y_{2i+1})\), \((x_{2i+2}, y_{2i+2})\) each have a unique circle (or line) that intersects all three of them. We define the function:
+
+$$S_{2i}(t) = 
+\left[
+\begin{array}{c}
+a_{2i} + r_{2i} \cos(\theta_{2i} + \phi_{2i} t) \\
+b_{2i} + r_{2i} \sin(\theta_{2i} + \phi_{2i} t) \\
+\end{array}
+\right]
+$$
+
+Where \((a_i, b_i)\) is the center of this circle, \(r_i\) is the radius, and \(\theta_i, \phi_i\) are angles such that \(S_{2i}(0) = \langle x_{2i}, y_{2i}\rangle\) and \(S_{2i}(1) = \langle x_{2i+2}, y_{2i+2} \rangle\). For some value \(t_{2i+1} \in [0,1]\), we have \(S_{2i}(t_{2i+1}) = \langle x_{2i+1}, y_{2i+1}\rangle\).
+
+If the three points happen to be collinear, we instead use a line:
+$$S_{2i}(t) = 
+\left[
+\begin{array}{c}
+(1 - t) x_{2i} + t x_{2i+2} \\
+(1 - t) y_{2i} + t y_{2i+2} \\
+\end{array}
+\right]
+$$
+
+If there is an even number of points, we also use a line to connect the last two. 
+
+This interpolation connects all points. There is usually a corner at every other point. If the figure of points is rotates, the interpolation will consistently rotate with it. The points need not be ordered left-to-right, and the path can bend in any direction. 
+
+
+\section*{The Computation}
+
+Let each \(\vec x_i = \langle x_i, y_i \rangle\), and each \(\vec a_{2i} = \langle a_{2i}, b_{2i} \rangle\). 
+
+The circle center \(\vec a_{2i}\) must be equidistant from \(\vec x_{2i}, \vec x_{2i+1}, \vec x_{2i+2}\). 
+
+$$ || \vec a_{2i} - \vec x_{2i} ||^2 = 
+|| \vec a_{2i} - \vec x_{2i+1} ||^2 = 
+|| \vec a_{2i} - \vec x_{2i+2} ||^2 $$
+
+$$ 
+|| \vec a_{2i} ||^2 - 2 \vec a_{2i} \cdot \vec x_{2i} + || \vec x_{2i} ||^2 = 
+$$
+$$ 
+|| \vec a_{2i} ||^2 - 2 \vec a_{2i} \cdot \vec x_{2i+1} + || \vec x_{2i+1} ||^2 = 
+$$
+$$ 
+|| \vec a_{2i} ||^2 - 2 \vec a_{2i} \cdot \vec x_{2i+2} + || \vec x_{2i+2} ||^2
+$$
+
+Use \(\Delta\) notation to refer to forward differences. For example, \(\Delta x_{2i} = x_{2i+1} - x_{2i}\). 
+
+$$ 2 \vec a_{2i} \cdot \Delta \vec x_{2i} = \Delta (||\vec x_{2i} ||^2)
+$$
+$$ 2 \vec a_{2i} \cdot \Delta \vec x_{2i+1} = \Delta (||\vec x_{2i+1} ||^2)
+$$
+
+$$
+2
+\left[
+\begin{array}{cc}
+\Delta x_{2i} & \Delta y_{2i} \\
+\Delta x_{2i+1} & \Delta y_{2i+1} \\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+a_{2i} \\ b_{2i}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+\Delta (||\vec x_{2i} ||^2) \\
+\Delta (||\vec x_{2i+1} ||^2) \\
+\end{array}
+\right]
+$$
+
+If the determinant of the matrix on the left is zero, the points are collinear, and we use the other formula. 
+
+Otherwise, once \(\vec a_{2i}\) is calculated, we get:
+
+$$ r_{2i} = || \vec x_{2i} - \vec a_{2i} || $$
+
+To work with the angles, we use the \({\text atan2}(x,y)\) function, which determines the angle needed to draw segment in the direction \(\langle x, y\rangle\). (This matches \(\arctan(y/x)\) when \(x > 0\), but is off by \(\pm \pi\) otherwise.)
+
+$$ \theta_{2i} = \text{atan2}(y_{2i} - b_{2i}, x_{2i} - a_{2i}) $$
+
+We want to make is so that $S_{2i}(t)$ moves in the correct direction to pass through \(\vec x_{2i}, \vec x_{2i+1}, \vec x_{2i+2}\) in that order. We set: 
+$$ \alpha = \text{atan2}(y_{2i+1} - b_{2i}, x_{2i+1} - a_{2i}) - \theta_{2i} $$
+$$ \beta = \text{atan2}(y_{2i+2} - b_{2i}, x_{2i+2} - a_{2i}) - \theta_{2i}  - \alpha$$
+We want $\alpha, \beta$ to be the radians travels from each point to the next. The should be in the same direction, and with $\alpha + \beta \in [-2\pi, 2\pi]$.
+\begin{itemize}
+	\item If $\alpha, \beta$ have the same sign, and $|\alpha + \beta| \le 2\pi$, then we leave them as-is.
+	\item If $\alpha, \beta > 0$ , but $|\alpha + \beta| > 2\pi$, then we adjust them both by \(-2\pi\). If instead $\alpha, \beta < 0$, we adjust them by \(+ 2\pi\).
+	\item If $\alpha, \beta$ have different signs, then we take the one closer to zero and adjust it by $\pm 2\pi$, using the opposite of its current sign (sending it to the other side of zero).
+\end{itemize}
+
+After this step, we set $\phi_{2i} = \alpha + \beta$.
+
+
+
+\section*{The Results}
+
+
+% tikz is a widely-used package for LaTeX with a LOT of flexibilty.
+% These diagrams use small circles to mark the points.
+% The coordinates of the points and lines are in parentheses
+% fbox gives it a frame.
+
+
+Graph 1:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,2) circle [radius=0.05];
+		\draw[fill] (2,1) circle [radius=0.05];
+		\draw[fill] (3,0) circle [radius=0.05];
+		\draw[fill] (5,1) circle [radius=0.05];
+		\draw[fill] (6,2) circle [radius=0.05];
+		\draw[fill] (9,0) circle [radius=0.05];
+		
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({-1.5 + 5.7009 * cos(180/pi*(1.3045 + -0.6435*\t))},
+		{-3.5 + 5.7009 * sin(180/pi*(1.3045 + -0.6435*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({1.5 + 5.7009 * cos(180/pi*(-1.3045 + 0.6435*\t))},
+		{5.5 + 5.7009 * sin(180/pi*(-1.3045 + 0.6435*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({6 + 3*\t},
+		{2 - 2*\t});
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 2:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,0) circle [radius=0.05];
+		\draw[fill] (1,1) circle [radius=0.05];
+		\draw[fill] (2,2) circle [radius=0.05];
+		\draw[fill] (4,4) circle [radius=0.05];
+		\draw[fill] (5,3) circle [radius=0.05];
+		\draw[fill] (6,1) circle [radius=0.05];
+		
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({0 + 2*\t},
+		{0 + 2*\t});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({3.5 + 1.5811 * cos(180/pi*(-2.8198 - pi*\t))},
+		{2.5 + 1.5811 * sin(180/pi*(-2.8198 - pi*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({5 + 1*\t},
+		{3 - 2*\t});
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 3:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,2) circle [radius=0.05];
+		\draw[fill] (1,1) circle [radius=0.05];
+		\draw[fill] (2,2) circle [radius=0.05];
+		\draw[fill] (4,5) circle [radius=0.05];
+		\draw[fill] (5,6) circle [radius=0.05];
+		\draw[fill] (9,5) circle [radius=0.05];
+		\draw[fill] (10,5) circle [radius=0.05];
+		
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({1.0 + 1.0 * cos(180/pi*(pi + pi*\t))},
+		{2.0 + 1.0 * sin(180/pi*(pi + pi*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({13.5 + 12.7475 * cos(180/pi*(2.6955 - 0.3948*\t))},
+		{-3.5 + 12.7475 * sin(180/pi*(2.6955- 0.3948*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({9.5 + 10.5119 * cos(180/pi*(-2.0132 + 0.4900*\t))},
+		{15.5 + 10.5119 * sin(180/pi*(-2.0132 + 0.4900*\t))});
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 4:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,0) circle [radius=0.05];
+		\draw[fill] (1,0) circle [radius=0.05];
+		\draw[fill] (2,0) circle [radius=0.05];
+		\draw[fill] (3,0) circle [radius=0.05];
+		\draw[fill] (4,2) circle [radius=0.05];
+		\draw[fill] (5,0) circle [radius=0.05];
+		\draw[fill] (6,0) circle [radius=0.05];
+		\draw[fill] (7,0) circle [radius=0.05];
+		
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({0 + 2*\t},
+		{0 + 0*\t});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({2.5 + 1.5811 * cos(180/pi*(-1.8925 + 2.2143*\t))},
+		{1.5 + 1.5811 * sin(180/pi*(-1.8925 + 2.2143*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({5.5 + 1.5811 * cos(180/pi*(2.8198 + 2.2143*\t))},
+		{1.5 + 1.5811 * sin(180/pi*(2.8198 + 2.2143*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({6 + 1*\t},
+		{0 + 0*\t});
+		\end{tikzpicture}
+	}
+\end{center}
+
+Graph 5:
+\begin{center}
+	\fbox{
+		\begin{tikzpicture}
+		\draw[fill] (0,5) circle [radius=0.05];
+		\draw[fill] (1,2) circle [radius=0.05];
+		\draw[fill] (2,1) circle [radius=0.05];
+		\draw[fill] (4,0) circle [radius=0.05];
+		\draw[fill] (6,1) circle [radius=0.05];
+		\draw[fill] (7,3) circle [radius=0.05];
+		\draw[fill] (9,4) circle [radius=0.05];
+		\draw[fill] (10,2) circle [radius=0.05];
+		
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({5 + 5 * cos(180/pi*(pi + 0.9273*\t))},
+		{5 + 5 * sin(180/pi*(pi + 0.9273*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({4 + 2.5 * cos(180/pi*(-2.4981 + 1.8546*\t))},
+		{2.5 + 2.5 * sin(180/pi*(-2.4981 + 1.8546*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({9.5 + 3.5355 * cos(180/pi*(2.9997 + -1.287*\t))},
+		{0.5 + 3.5355 * sin(180/pi*(2.9997 + -1.287*\t))});
+		\draw[blue,variable=\t,domain=0:1,samples=100]
+		plot ({9 + 1*\t},
+		{4 - 2*\t});
+		\end{tikzpicture}
+	}
+\end{center}
+
+\section*{Possible Issues}
+
+This method usually makes sharp corners at every other point, which may not be desirable.
+
+Inserting a point anywhere except the right end will change the even/odd designation of every point to its right, which may alter the picture drastically. 
+
+\section*{Possible Extensions}
+
+We believe that it is possible to interpolate arcs that lie tangent on the points they intersect (no corners) if we set each to connect two consecutive points instead of three.
+
+It might also be possible to make the current arcs all tangent if we permit ourselves to use \emph{ellipses} as well as circles, or other conic sections. 
+
+
+\end{document}
