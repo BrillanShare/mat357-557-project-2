@@ -1,10 +1,11 @@
 import numpy as np
+from matplotlib import patches
 import matplotlib.pyplot as plt
 
 CIRCLE_DEBUG = False
 TANGENT_DEBUG = False
 ARC_DEBUG = False
-BREAK_ON_EXIT = True
+BREAK_ON_EXIT = False
 
 fig, ax = plt.subplots(figsize=(10, 10))
 
@@ -14,15 +15,21 @@ def plot_circle(center, edge_point, radius, ax, label, center_color='r'):
     ax.plot(center[0], center[1], 'o', color=center_color)  # Center point
     ax.plot(edge_point[0], edge_point[1], 'o', color=center_color)  # Edge point
 
-def plot_arc_to_tangent(center, radius, start_point, tangent_point, ax, color='g'):
-    start_angle = np.arctan2(start_point[1] - center[1], start_point[0] - center[0])
-    end_angle = np.arctan2(tangent_point[1] - center[1], tangent_point[0] - center[0])
+
+def plot_arc_on_circle(center, radius, start_point, end_point, ax, arc_color='g'):
+    # find the angle in degrees
+    start_angle = np.rad2deg(np.arctan2(start_point[1] - center[1], start_point[0] - center[0]))
+    end_angle = np.rad2deg(np.arctan2(end_point[1] - center[1], end_point[0] - center[0]))
+
+    # Make sure that start angle is less than end angle
     if start_angle > end_angle:
-        end_angle += 2 * np.pi
-    angles = np.linspace(start_angle, end_angle, 100)
-    x_arc = center[0] + radius * np.cos(angles)
-    y_arc = center[1] + radius * np.sin(angles)
-    ax.plot(x_arc, y_arc, color=color, linewidth=2)
+        start_angle, end_angle = end_angle, start_angle
+
+    # Creating arc
+    arc = patches.Arc(center, 2*radius, 2*radius, theta1=start_angle, theta2=end_angle,
+              edgecolor=arc_color, linewidth=2)
+
+    ax.add_patch(arc)
 
 def find_external_tangents(c1, r1, c2, r2):
     d = np.linalg.norm(np.array(c2) - np.array(c1))
@@ -96,12 +103,18 @@ def main():
             breakpoint()
 
     # Adjusting the arc on C0 to start from P1 and go clockwise to the tangent point
-    # Add the updated code snippet for the arc on C0 here
+    if ARC_DEBUG:
+        setup_plot()
+    plot_arc_on_circle(points[0], radii[0], points[3], tangents_C0_C2[0][0], ax)
+    if ARC_DEBUG:
+        configure_plot_and_show()
+        breakpoint()
+
 
     if ARC_DEBUG:
         setup_plot()
         # Arc on C2 from the tangent point to P3, ensuring it's clockwise
-    plot_arc_to_tangent(points[2], radii[1], tangents_C0_C2[0][1], points[3], ax)
+    plot_arc_on_circle(points[2], radii[1], tangents_C0_C2[0][1], points[3], ax)
     if ARC_DEBUG:
         configure_plot_and_show()
         breakpoint()
@@ -115,7 +128,13 @@ def main():
         if TANGENT_DEBUG:
             configure_plot_and_show()
             breakpoint()
-    plot_arc_to_tangent(points[4], radii[2], tangents_C2_C4[0][1], points[5], ax)
+
+    if ARC_DEBUG:
+        setup_plot()
+    plot_arc_on_circle(points[4], radii[2], tangents_C2_C4[0][1], points[5], ax)
+    if ARC_DEBUG:
+        configure_plot_and_show()
+        breakpoint()
 
     configure_plot_and_show()
 
@@ -125,3 +144,6 @@ def main():
 if __name__ == "__main__":
     # Execute main() only if the script is run directly, not if it's imported as a module
     main()
+
+
+
