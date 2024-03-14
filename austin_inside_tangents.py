@@ -53,30 +53,73 @@ class Pair:
     self.control = control
 # ================================================================
 
-def find_dist(p1, p2):
-  return math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2)
+# ================================================================
+class find:
+  @staticmethod
+  def dist(p1, p2):
+    return math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2)
 
-def find_angle(center, edge):
-  return math.degrees(math.atan2(edge.y - center.y, edge.x - center.x))
+  @staticmethod
+  def angle(center, edge):
+    return math.degrees(math.atan2(edge.y - center.y, edge.x - center.x))
 
-def find_arc_degree(center, anchor, tan_p, clockwise=False):
-  # Calculate angles in radians from the center to each point
-  angle1_rad = np.arctan2(anchor.y - center.y, anchor.x - center.x)
-  angle2_rad = np.arctan2(tan_p.y - center.y, tan_p.x - center.x)
+  @staticmethod
+  def arc_degree(center, anchor, tan_p, clockwise=False):
+    # Calculate angles in radians from the center to each point
+    angle1_rad = np.arctan2(anchor.y - center.y, anchor.x - center.x)
+    angle2_rad = np.arctan2(tan_p.y - center.y, tan_p.x - center.x)
 
-  if clockwise:
-    # For clockwise, if angle1 is less than angle2, it needs to wrap around
-    if angle1_rad < angle2_rad:
-      angle1_rad += 2 * np.pi
-      # Convert the angle difference from radians to degrees
-    return np.degrees(angle1_rad - angle2_rad)
-  else:
-    # For counterclockwise, if angle2 is less than angle1, it needs to wrap around
-    if angle2_rad < angle1_rad:
-      angle2_rad += 2 * np.pi
-      # Convert the angle difference from radians to degrees
-    return np.degrees(angle2_rad - angle1_rad)
+    if clockwise:
+      # For clockwise, if angle1 is less than angle2, it needs to wrap around
+      if angle1_rad < angle2_rad:
+        angle1_rad += 2 * np.pi
+        # Convert the angle difference from radians to degrees
+      return np.degrees(angle1_rad - angle2_rad)
+    else:
+      # For counterclockwise, if angle2 is less than angle1, it needs to wrap around
+      if angle2_rad < angle1_rad:
+        angle2_rad += 2 * np.pi
+        # Convert the angle difference from radians to degrees
+      return np.degrees(angle2_rad - angle1_rad)
 
+  @staticmethod
+  def tangents(center1, edge1, center2, edge2, internal=False):
+      r1 = find.dist(center1, edge1)
+      r2 = find.dist(center2, edge2)
+      d = find.dist(center1, center2)
+
+      theta = np.arctan2(center2.y - center1.y, center2.x - center1.x)
+
+      if internal:
+          if r1 + r2 > d:  # Check if internal tangents exist
+              print("No internal tangents exist")
+              return []
+          phi = np.arccos((r1 + r2) / d)
+      else:
+          if abs(r1 - r2) > d:  # Check if external tangents exist
+              print("No external tangents exist")
+              return []
+          phi = np.arccos((r1 - r2) / d)
+
+      angles = [theta + phi, theta - phi]
+      tangents = []
+
+      for angle in angles:
+          if internal:
+              x1 = center1.x + r1 * np.cos(angle)
+              y1 = center1.y + r1 * np.sin(angle)
+              x2 = center2.x - r2 * np.cos(angle)
+              y2 = center2.y - r2 * np.sin(angle)
+          else:
+              x1 = center1.x + r1 * np.cos(angle)
+              y1 = center1.y + r1 * np.sin(angle)
+              x2 = center2.x + r2 * np.cos(angle)
+              y2 = center2.y + r2 * np.sin(angle)
+
+          tangents.append((Point(x1, y1), Point(x2, y2)))
+
+      return tangents
+# ================================================================
 class plot:
   @staticmethod
   def point(point, label='', offset=(0.1, 0.1), color='blue'):
@@ -94,7 +137,7 @@ class plot:
 
   @staticmethod
   def circle(center, edge):
-    r = find_dist(center, edge)
+    r = find.dist(center, edge)
     theta = np.linspace(0, 2 * np.pi, 100)
     x = center.x + r * np.cos(theta)
     y = center.y + r * np.sin(theta)
@@ -102,11 +145,11 @@ class plot:
 
   @staticmethod
   def arc(center, start_point, end_point, clockwise=False):
-    r = find_dist(center, start_point)  # Assume the radius is the same for start and end points
+    r = find.dist(center, start_point)  # Assume the radius is the same for start and end points
 
     # Get angles in degrees and then convert to radians
-    start_angle_rad = np.radians(find_angle(center, start_point))
-    end_angle_rad = np.radians(find_angle(center, end_point))
+    start_angle_rad = np.radians(find.angle(center, start_point))
+    end_angle_rad = np.radians(find.angle(center, end_point))
 
     # Adjust for clockwise or counterclockwise direction
     if clockwise:
@@ -133,73 +176,38 @@ class plot:
       if show_circle: plot.circle(control, anchor)
 
 fig, ax = plt.subplots(figsize=(10, 10))
+# ================================================================
 
-def find_tangents(center1, edge1, center2, edge2, internal=False):
-    r1 = find_dist(center1, edge1)
-    r2 = find_dist(center2, edge2)
-    d = find_dist(center1, center2)
 
-    theta = np.arctan2(center2.y - center1.y, center2.x - center1.x)
-
-    if internal:
-        if r1 + r2 > d:  # Check if internal tangents exist
-            print("No internal tangents exist")
-            return []
-        phi = np.arccos((r1 + r2) / d)
-    else:
-        if abs(r1 - r2) > d:  # Check if external tangents exist
-            print("No external tangents exist")
-            return []
-        phi = np.arccos((r1 - r2) / d)
-
-    angles = [theta + phi, theta - phi]
-    tangents = []
-
-    for angle in angles:
-        if internal:
-            x1 = center1.x + r1 * np.cos(angle)
-            y1 = center1.y + r1 * np.sin(angle)
-            x2 = center2.x - r2 * np.cos(angle)
-            y2 = center2.y - r2 * np.sin(angle)
-        else:
-            x1 = center1.x + r1 * np.cos(angle)
-            y1 = center1.y + r1 * np.sin(angle)
-            x2 = center2.x + r2 * np.cos(angle)
-            y2 = center2.y + r2 * np.sin(angle)
-
-        tangents.append((Point(x1, y1), Point(x2, y2)))
-
-    return tangents
 
 def main():
   plot_debug = False # show extra information
 
 # == starting conditions =========================================
   clockwise = False
-  Points = [Point(4, 6), Point(1, 2),
+  Points = [Point(1, 2), Point(4, 6),
             Point(-5, -4), Point(-4, -3),
-            Point(0,1), Point(1,0),
-            Point(-5, -4), Point(-4, -3)]
+            Point(1,0), Point(0,1) ]
   if len(Points)%2 != 0:
     raise ValueError('There needs to be an even number of points!')
 # == needed definitions ==========================================
   tan_start, tan_end = Point(0,0), Point(0,0)
   def Anchor(i):
-    return Points[np.clip((i-1), 0, len(Points)//2)*2]
-  def Control(i):
     return Points[np.clip((i-1), 0, len(Points)//2)*2+1]
+  def Control(i):
+    return Points[np.clip((i-1), 0, len(Points)//2)*2]
 # ================================================================
 
   print(f'{len(Points)} =========')
   for i in range(1, len(Points)//2):
-    print(f'{i+1}:Anchor{Anchor(i)} and Control{Control(i)} -> Anchor{Anchor(i+1)} and Control{Control(i+1)}')
+    print(f'{i}:Anchor{Anchor(i)} and Control{Control(i)} -> Anchor{Anchor(i+1)} and Control{Control(i+1)}')
 # == plot starting info ==========================================
     plot.pair(Anchor(i), Control(i), i, plot_debug)
     plot.pair(Anchor(i+1), Control(i+1), i+1, plot_debug)
 
 # == find tangents ===============================================
-    external_tangents = find_tangents(Control(i), Anchor(i), Control(i+1), Anchor(i+1), internal=False)
-    internal_tangents = find_tangents(Control(i), Anchor(i), Control(i+1), Anchor(i+1), internal=True)
+    external_tangents = find.tangents(Control(i), Anchor(i), Control(i+1), Anchor(i+1), internal=False)
+    internal_tangents = find.tangents(Control(i), Anchor(i), Control(i+1), Anchor(i+1), internal=True)
 
     if plot_debug:
       for line in external_tangents:
@@ -210,8 +218,8 @@ def main():
 # == find the tangent point in the corisponding direction ========
     c = 0 if clockwise else 1
 
-    arc_deg_ext = find_arc_degree(Control(i), Anchor(i), external_tangents[c][0], clockwise)
-    arc_deg_int = find_arc_degree(Control(i), Anchor(i), internal_tangents[c][0], clockwise)
+    arc_deg_ext = find.arc_degree(Control(i), Anchor(i), external_tangents[c][0], clockwise)
+    arc_deg_int = find.arc_degree(Control(i), Anchor(i), internal_tangents[c][0], clockwise)
     if arc_deg_ext < arc_deg_int:
       tan_start, tan_end = external_tangents[c][0], external_tangents[c][1]
     else:
@@ -228,8 +236,6 @@ def main():
       plot.point(tan_start)
       plot.point(tan_end)
 # ================================================================
-
-
 
   plt.grid(True)
   plt.show()
