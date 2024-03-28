@@ -49,19 +49,19 @@ Circles that are adjacent \textit{in the input data set} must be disjoint, that 
 
 
 \subsection{A Parametric, Piecewise Curve}
-Let the final curve be defined by a parametic piecewise function of $t$:
+Let the final curve be defined by a parametric piecewise function of $t$:
 \[
 \overrightarrow{O}(t) = \overrightarrow{O}_{\lfloor t \rfloor}(t - \lfloor t \rfloor) = \begin{cases}
-S_0(t - \lfloor t \rfloor) & \text{for } 0 \leq t - \lfloor t \rfloor < 1, \\
-L_1(t - \lfloor t \rfloor) & \text{for } 1 \leq t - \lfloor t \rfloor < 2, \\
-R_2(t - \lfloor t \rfloor) & \text{for } 2 \leq t - \lfloor t \rfloor < 3, \\
-S_3(t - \lfloor t \rfloor) & \text{for } 3 \leq t - \lfloor t \rfloor < 4, \\
-L_4(t - \lfloor t \rfloor) & \text{for } 4 \leq t - \lfloor t \rfloor < 5, \\
-R_5(t - \lfloor t \rfloor) & \text{for } 5 \leq t - \lfloor t \rfloor < 6, \\
+S_0(t) & \text{for } 0 \leq t < 1, \\
+L_1(t - 1) & \text{for } 1 \leq t < 2, \\
+R_2(t - 2) & \text{for } 2 \leq t < 3, \\
+S_3(t - 3) & \text{for } 3 \leq t < 4, \\
+L_4(t - 4) & \text{for } 4 \leq t < 5, \\
+R_5(t - 5) & \text{for } 5 \leq t < 6, \\
 \vdots & \\
-S_{\frac{3n}{2}-3}(t - \lfloor t \rfloor) & \text{for } \frac{3n}{2}-3 \leq t - \lfloor t \rfloor < \frac{3n}{2}-2, \\
-L_{\frac{3n}{2}-2}(t - \lfloor t \rfloor) & \text{for } \frac{3n}{2}-2 \leq t - \lfloor t \rfloor < \frac{3n}{2}-1, \\
-R_{\frac{3n}{2}-1}(t - \lfloor t \rfloor) & \text{for } \frac{3n}{2}-1 \leq t - \lfloor t \rfloor < \frac{3n}{2}, \\
+S_{\frac{3n}{2}-3}(t - \frac{3n}{2}-3) & \text{for } \frac{3n}{2}-3 \leq t < \frac{3n}{2}-2, \\
+L_{\frac{3n}{2}-2}(t - \frac{3n}{2}-2) & \text{for } \frac{3n}{2}-2 \leq t < \frac{3n}{2}-1, \\
+R_{\frac{3n}{2}-1}(t - \frac{3n}{2}-1) & \text{for } \frac{3n}{2}-1 \leq t < \frac{3n}{2}, \\
 A_{\frac{n}{2}-1} & \text{for } t = \frac{3n}{2}
 \end{cases}
 \]
