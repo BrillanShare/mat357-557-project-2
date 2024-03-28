@@ -60,10 +60,10 @@ S_3(t - 3) & \text{for } 3 \leq t < 4, \\
 L_4(t - 4) & \text{for } 4 \leq t < 5, \\
 R_5(t - 5) & \text{for } 5 \leq t < 6, \\
 \vdots & \\
-S_{\frac{3n}{2}-3}(t - \frac{3n}{2}-3) & \text{for } \frac{3n}{2}-3 \leq t < \frac{3n}{2}-2, \\
-L_{\frac{3n}{2}-2}(t - \frac{3n}{2}-2) & \text{for } \frac{3n}{2}-2 \leq t < \frac{3n}{2}-1, \\
-R_{\frac{3n}{2}-1}(t - \frac{3n}{2}-1) & \text{for } \frac{3n}{2}-1 \leq t < \frac{3n}{2}, \\
-A_{\frac{n}{2}-1} & \text{for } t = \frac{3n}{2}
+S_{\frac{3n}{2}-6}(t - \frac{3n}{2}-6) & \text{for } \frac{3n}{2}-6 \leq t < \frac{3n}{2}-5, \\
+L_{\frac{3n}{2}-5}(t - \frac{3n}{2}-5) & \text{for } \frac{3n}{2}-5 \leq t < \frac{3n}{2}-4, \\
+R_{\frac{3n}{2}-4}(t - \frac{3n}{2}-4) & \text{for } \frac{3n}{2}-4 \leq t < \frac{3n}{2}-3, \\
+A_{\frac{n}{2}-1} & \text{for } t = \frac{3n}{2}-3
 \end{cases}
 \]
 
@@ -149,9 +149,6 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_0$ \\
             $L_1$ \\
             $R_2$ \\
-            $S_3$ \\
-            $L_4$ \\
-            $R_5$ \\
             $A_1$
         \end{tabular}} &
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
@@ -161,9 +158,6 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_3$ \\
             $L_4$ \\
             $R_5$ \\
-            $S_6$ \\
-            $L_7$ \\
-            $R_8$ \\
             $A_2$
         \end{tabular}} &
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
@@ -176,26 +170,23 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_6$ \\
             $L_7$ \\
             $R_8$ \\
-            $S_9$ \\
-            $L_{10}$ \\
-            $R_{11}$ \\
             $A_3$
         \end{tabular}} \\
         \hline
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
-            $0 \leq t \leq \frac{3n}{2}$ \\
-            \hspace{1.5em}$\leq \frac{3 \cdot 4}{2}$ \\
+            $0 \leq t \leq \frac{3n}{2}-3$ \\
+            \hspace{1.5em}$\leq \frac{3 \cdot 4}{2}-3$ \\
+            $0 \leq t \leq 3$
+        \end{tabular}} &
+        \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
+            $0 \leq t \leq \frac{3n}{2}-3$ \\
+            \hspace{1.5em}$\leq \frac{3 \cdot 6}{2}-3$ \\
             $0 \leq t \leq 6$
         \end{tabular}} &
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
-            $0 \leq t \leq \frac{3n}{2}$ \\
-            \hspace{1.5em}$\leq \frac{3 \cdot 6}{2}$ \\
+            $0 \leq t \leq \frac{3n}{2}-3$ \\
+            \hspace{1.5em}$\leq \frac{3 \cdot 8}{2}-3$ \\
             $0 \leq t \leq 9$
-        \end{tabular}} &
-        \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
-            $0 \leq t \leq \frac{3n}{2}$ \\
-            \hspace{1.5em}$\leq \frac{3 \cdot 8}{2}$ \\
-            $0 \leq t \leq 12$
         \end{tabular}} \\
         \hline
     \end{tabular}
