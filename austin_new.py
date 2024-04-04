@@ -376,10 +376,8 @@ def main():
     plt.axis('equal')  # Ensure the plot's aspect ratio is equal
     plt.xlabel('x')
     plt.ylabel('y')
-    # plt.xlim(-5, 15)
-    # plt.ylim(-6, 12)
-    plt.xlim(-5, 25)  # Extended to 25 to accommodate the highest x-value of 22 with some margin
-    plt.ylim(-6, 15)  # Extended to -3 and 15 to accommodate the lowest y-value of -1 and highest of 12 with some margin
+    plt.xlim(-5, 25)
+    plt.ylim(-6, 15)
     #plt.tight_layout()
     plt.show()
 
