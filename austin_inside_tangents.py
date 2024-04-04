@@ -96,6 +96,8 @@ class find:
         r2 = find.dist(center2, edge2)
         d = find.dist(center1, center2)
 
+        # angle of the line connecting the centers of the circles
+        # currently called alpha in desmos
         theta = np.arctan2(center2.y - center1.y, center2.x - center1.x)
 
         if internal:
@@ -195,7 +197,7 @@ fig, ax = plt.subplots(figsize=(10, 10))
 
 
 def main():
-    plot_debug = True  # show extra information
+    plot_debug = False  # show extra information
 
     # == starting conditions =========================================
     clockwise = False
@@ -220,14 +222,43 @@ def main():
     def Control(i):
         return Points[np.clip((i - 1), 0, len(Points) // 2) * 2]
 
+
+
+
+    anchor_zero = Anchor(0)
+    control_zero = Control(0)
+
+    # Looks like this is designed to be 1-based...
+    # further, instead of crashing, 0 gives the same result as 1...that is confusing
+
+    anchor_one = Anchor(1)
+    control_one = Control(1)
+
+    anchor_two = Anchor(2)
+    control_two = Control(2)
+
+    anchor_three = Anchor(3)
+    control_three = Control(3)
+
+    anchor_four = Anchor(4)
+    control_four = Control(4)
+
+    # out of range:
+    # anchor_five = Anchor(5)
+    # control_five = Control(5)
+
+
     # ================================================================
 
     print(f'{len(Points)} =========')
     for i in range(1, len(Points) // 2):
         print(f'{i}:Anchor{Anchor(i)} and Control{Control(i)} -> Anchor{Anchor(i + 1)} and Control{Control(i + 1)}')
         # == plot starting info ==========================================
+        # with debug off, plots (in blue) and labels (in red) circle centers, circle edge points, and the radius connecting them
+        # with debug on, also plots the circle in light gray
         plot.pair(Anchor(i), Control(i), i, plot_debug)
         plot.pair(Anchor(i + 1), Control(i + 1), i + 1, plot_debug)
+        #note: the above double-draws all circles except for the first one and the last one
 
         # == find tangents ===============================================
         external_tangents = find.tangents(Control(i), Anchor(i), Control(i + 1), Anchor(i + 1), internal=False)
@@ -249,7 +280,7 @@ def main():
         else:
             tan_start, tan_end = internal_tangents[c][0], internal_tangents[c][1]
         # == use the point to plot the line ==============================
-        plot.arc(Control(i), Anchor(i), tan_start, clockwise)
+        plot.arc(Control(i), Anchor(i), tan_start, clockwise) #
         plot.line(tan_start, tan_end, '-', 'g')
         # if inner was used, then flip
         if arc_deg_ext > arc_deg_int:
