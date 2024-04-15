@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
 
 # Seed the RNG for reproducibility
 np.random.seed(42)
@@ -20,16 +19,6 @@ def calculate_epsilon(pressure):
 
 def process_stream(real_time_data, epsilon, poly_degree, enable_plotting=True):
     """Process the incoming data stream with dynamic polynomial fitting."""
-
-    fig, ax = plt.subplots()
-    if enable_plotting:
-        line, = ax.plot([], [], 'o', markersize=3, label='Data Points')  # Initialize empty plot for data points
-        line_fit, = ax.plot([], [], label='Polynomial Fit')  # Initialize empty plot for polynomial fit
-        plt.legend()
-        plt.xlabel('Time (t)')
-        plt.ylabel('Pressure (Pa)')
-        plt.title('Real-time Polynomial Fitting on Time-Series Data')
-
     x_vals, y_vals = [], []
     coefficients = []
     previous_fit = None
@@ -38,34 +27,43 @@ def process_stream(real_time_data, epsilon, poly_degree, enable_plotting=True):
     # Define color pairs for alternating between segments
     colors = [('blue', 'orange'), ('green', 'magenta')]
 
-    def update(frame):
-        t, y = frame
+    for t, y in real_time_data:
         x_vals.append(t)
         y_vals.append(y)
 
         if len(x_vals) >= poly_degree + 1:  # We need at least poly_degree + 1 points to fit a polynomial
-            poly = np.polyfit(x_vals, y_vals, poly_degree)
+            poly = np.polyfit(x_vals, y_vals, poly_degree)  # Fit a polynomial of degree poly_degree
             current_fit = np.polyval(poly, x_vals)
 
-            if previous_fit is None or np.max(np.abs(previous_fit - current_fit[-len(previous_fit):])) > epsilon:
+            if previous_fit is not None and np.max(np.abs(previous_fit - current_fit[-len(previous_fit):])) > epsilon:
                 coefficients.append(poly)
-                line.set_data(x_vals, y_vals)
-                line_fit.set_data(x_vals, current_fit)
-                ax.relim()  # Recompute the ax.dataLim
-                ax.autoscale_view()  # Update ax.viewLim using the new dataLim
-                # Reset for the next segment
-                return line, line_fit
+                if enable_plotting:
+                    data_color, fit_color = colors[color_index]
+                    plt.plot(x_vals, y_vals, 'o', markersize=3, color=data_color)
+                    plt.plot(x_vals, current_fit, color=fit_color)
+                x_vals, y_vals = [x_vals[-1]], [y_vals[-1]]  # Start new segment with the last point
+                previous_fit = np.polyval(poly, [x_vals[0]])
+                color_index = 1 - color_index  # Toggle color index for next segment
             elif previous_fit is None:
                 previous_fit = current_fit
 
-        return line, line_fit
+    # Close final segment
+    if len(x_vals) > poly_degree:
+        poly = np.polyfit(x_vals, y_vals, poly_degree)
+        coefficients.append(poly)
+        current_fit = np.polyval(poly, x_vals)
+        if enable_plotting:
+            data_color, fit_color = colors[color_index]
+            plt.plot(x_vals, y_vals, 'o', markersize=3, color=data_color)
+            plt.plot(x_vals, current_fit, color=fit_color)
 
     if enable_plotting:
-        ani = FuncAnimation(fig, update, frames=real_time_data, blit=True, repeat=False)
+        plt.xlabel('Time (t)')
+        plt.ylabel('Pressure (Pa)')
+        plt.title('Real-time Polynomial Fitting on Time-Series Data')
         plt.show()
 
     return coefficients
-
 
 
 def main():
