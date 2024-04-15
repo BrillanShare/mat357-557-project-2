@@ -57,13 +57,9 @@ def process_stream(real_time_data, error_bound_epsilon, poly_degree, enable_plot
             continue
 
         if len(t_vals_of_open_segment) == poly_degree + 1:
-            # The current open segment just got enough data points to attempt a curve fit
+            # The current open segment just got enough data points to fit a curve
             assert curr_fitted_curve_open_segment is None, "There should NOT be a previous fitted curve."
             curr_fitted_curve_open_segment = np.polyfit(t_vals_of_open_segment, y_vals_of_open_segment, poly_degree)
-
-            # TODO: Hopefully an exceptional case:
-            # TODO: Handle the possibility that the *initial* curve fit attempt fails
-            # TODO: (the resulting residual error is not within epsilon)
 
         else:
             # The current open segment already had a fitted curve
