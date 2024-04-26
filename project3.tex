@@ -13,9 +13,12 @@
 \usepackage{hyperref}
 
 
+\usepackage{caption} % for being able to put a title for a figure above it (in addition to the caption below it)
+
+
 
 \title{MAT 357-557 Numerical Analysis Project 3}
-\author{Austin Zhu, Brillan Morgan, Bhargav Vundavalli}
+\author{Austin Zhu, Brillan MORGAN, Bhargav Vundavalli}
 \date{Spring 2024}
 
 \begin{document}
@@ -35,11 +38,27 @@
 
 \section{The Encoding}
 
-\subsection{If and When Actual Point Coordinates can be Discarded}
-\label{subsec:when_can_discard_point_coords}
-The y value (if not also the t value) of a data point can be discarded as soon as the intermediate matrices used to make the segment’s curve fit have been constructed. But when exactly is that? The current open segment must accumulate at least k+1 data points before we can attempt the initial k-degree polynomial fit for that segment. So, in general, the actual point coordinates will be retained until the current open segment has at least k+1 data points. The primary exception is for when the data stream ends while the open segment has k or fewer points. In this case, no k-degree polynomial fit can be attempted on this segment. The segment is closed without...
+\section{Preliminary Definitions}
+\textbf{AVOID STACKED HEADINGS}
 
-(See also subsection \ref{subsec:alternatives_to_storing_t_values})
+\subsection{Data Points and their Indices}
+The primary values handled by the system are the data points that the system was designed to compress. Each data point consists of two values: a time \(t\) and a reading \(r\), which can be expressed as a coordinate pair \((t, r)\).
+
+The reading \(r\) value of a data point is a scalar value; it is the measurement of some real-world quantity reported by data source (a sensor, gauge, etc.). \textbf{(Examples.)}
+
+The time \(t\) value of a data point is the timestamp associated with the reading, which is typically the time at which the reading was collected. The system supports any unit of time (ms, seconds, minutes, etc.) and both fixed and variable intervals between readings. The system does not require an initial time value of t = 0. Time values are expected to be monotonically increasing, that is, time will not go backwards.
+
+mu, the zero-based index of each data point, assigned to the point by the system when the system receives the point. The first index of a data stream is mu = 0. The second index of a data stream is mu = 1, and so on. Each mu is permanantly associated only with its initial data point. All indicies are unique.
+
+\subsection{Overview of Data Representations}
+There are three possible representations for a given data point in the system: actual, encoded and decoded.
+\subsubsection{Actual Data Points}
+We will refer to raw, uncompressed data points as actual data points. 
+
+\subsection{If and When Actual Data Points can be Discarded}
+\label{subsec:when_can_discard_point_coords}
+\textbf{(This section was written in a legacy context...back when the plan was to use the intermediate matrices approach.)}
+The y value (if not also the t value) of a data point can be discarded as soon as the intermediate matrices used to make the segment’s curve fit have been constructed. But when exactly is that? The current open segment must accumulate at least k+1 data points before we can attempt the initial k-degree polynomial fit for that segment. So, in general, the actual point coordinates will be retained until the current open segment has at least k+1 data points. The primary exception is for when the data stream ends while the open segment has k or fewer points. In this case, no k-degree polynomial fit can be attempted on this segment. (See also: \ref{subsec:close_the_final_segment})
 
 
 \section{Lossiness}
@@ -50,8 +69,12 @@ The y value (if not also the t value) of a data point can be discarded as soon a
 1D time series data: (time, atmospheric pressure).
 Compression is lossy.
 Our method is based on best-fit curves interpolation: the method of least squares.
+Our method is not "axis-agnostic:" when measuring error, we measure the distance from each actual data value to its fitted curve parallel with the vertical axis.
 
 \section{Compression Ratio}
+During an actual time-series streaming data scenario, there would be no complete, uncompressed, "before" data file on disk to compare our compression results to. For the purpose of this project, we do begin with a complete, uncompressed input data file that we use to simulate the streaming data scenario: we operate on each actual data point from the input sequentially, one at a time, without "peeking" at points that "haven't arrived yet." Our compression ratio comparisons are based on how large the complete, uncompressed data file would be on disk \textit{if} it were stored, which it would not be in practice.
+
+
 
 \section{Demonstrations}
 (since our method is lossy, we must show “before and after” photos)
@@ -72,8 +95,6 @@ Hopefully this isn’t an issue for the client, as all of the queried y values w
 
 
 \section{PYTHON DEVELOPMENT TO DO LIST}
-\subsection{Initial Fit Fail Possible?}
-(I think that) it is possible for the initial attempt to fit a k-degree polynomial for the first k+1 points of an open segment to fail. That is, the fit does not fall within the required residual bound of epsilon. Given that epsilon is a hard requirement, there are several options for how to handle this case. Raising the degree k of the polynomial is *not* an option. If we only have k+1 points, any polynomial of degree higher than k would be underdetermined.
 
 \subsection{Size Comparison (for Compression section)}
 Initially, compare theoretical data sizes in bytes between the raw data and the encoded/compressed data (coefficients for the k polynomial of each segment, start time t of each segment, any other metadata required to decode/decompress).
@@ -82,45 +103,91 @@ Eventually, actually write the data to file to compare file sizes on disk. Sugge
 We could mention ideas for further compression in the “Possible Extensions” section.
 
 \subsection{Time-Delay Simulation}
-Simulate the time-delay of the incoming stream of data. This would be for the purpose of animating the curve fit over time as data points arrive and visually growing the overall piecewise curve for the data set as it accumulates.
+Visually simulate the time-delay of the incoming stream of data. This would be for the purpose of animating the curve fit over time as data points arrive and visually growing the overall piecewise curve for the data set as it accumulates.
 
 Possibly matplotlib animation features? I couldn’t get them to work. Plotly also looked promising, but it seems to require webserver setup, etc.
 I will defer to the judgment of whomever works on this.
 
-\subsection{“Polynomial Fitting Acceleration”}
-Implement saving and reusing intermediate results from the previous best fit calculation. (See that one paper that all this is based on.)
-Will we explicitly support periodically sampled data, aperiodically sampled data, or both? Discuss.
-
-The actual y values from data points are not needed again after they have been used to create intermediate result matrices. That’s right, we don’t even need to retain actual y values for points in the current open segment!
-(Maybe we don’t even need the actual t values from data points again, see next section: “Alternatives to Storing All Input t Values”)
-
-\subsection{Alternatives to Perpetually Storing All Actual t Values}
-\label{subsec:alternatives_to_storing_t_values}
-Is there a way to use a method that we covered in class (or something related) to approximately generate the positions of the t values so that we don’t need to retain all the actual t values in our encoding?
-
-A simple solution would be to encode/compress t values by storing the count of data points that contributed to each segment, then decode/decompress t values by equally distributing t values over the t domain of a segment. This would work well when time intervals are equal or mostly equal. See also: “Polynomial Fitting Acceleration” for discussion of periodically vs. aperiodically sampled data.
-
-Would we consider handling cases when the “even distribution” approach for t values over a segment would cause any reconstituted t value to be “too far” from its actual t value? How far is “too far?” Would this be like a different epsilon for the dataset? Would we need to retain the t values for a segment until the segment is closed to facilitate this?
-Possible that we might want to segment when “reconstituted t value would be too far from actual t value” happens. If we were doing the even distribution approach for t values on a segment, then necessarily this determination could not happen until that segment is being closed. We could also consider refitting after segmenting in this way, but refit while we are at it, pros and cons of doing that?)
-
-Is there a way to *prove* that refitting in this situation would NOT cause another resegmenting because of “t value too far” again? If not, for a large data set for some certain patterns of data, there could be a cascade of resegmenting and refitting that could cause unexpected performance hiccups.
-
-(See also subsection \ref{subsec:when_can_discard_point_coords})
 
 \subsection{Close the Final Segment}
-When the data stream ends, formally close the current open segment.
+\label{subsec:close_the_final_segment}
+When the data stream ends, formally close the current open segment. Current best idea is to not compress these points at all and simply store the actual t and y values to be appended to the end of the decompressed data. (See also \ref{subsec:when_can_discard_point_coords})
 
 \subsection{Pressure Units OK?}
 Do the units of pressure shown on the plot and in the comments correspond to the numerical pressure values in the data set? I suspect they may not.
+
+
+\subsection{Data Values with Frequency Greater than One}
+Clearly, any given property value may appear any number of times in the data set. (Example.) Further, equal property values generally will not occur at adjacent values of mu, nor will they be associated with any particular value of t.
+But what about time values? Thanks to our parametric definition, there is no reason to restrict encoding multiple data points with the same time value. However, the Time Piecewise Polynomial is designed with the monotonically increasing property of time in mind, so for any times that appear in the data set more than once, we will require that they appear at consecutive values of mu. 
+(We are leveraging the fact that time is monotonically increasing: time never goes backwards.)
+
+
+
+\begin{figure}
+    \centering
+    \caption*{Progression Examples for the Representation of an Individual Data Point}
+    \includegraphics[width=1.0\textwidth]{NoCorner.png}
+    \caption{A non-exhaustive selection of possible scenarios for the progression of representation forms of an individual data point \((t,y)\)}
+    \label{fig:does_not_create_a_corner}
+\end{figure}
+
 
 \newpage
 \newpage
 \mbox{} % This puts an empty box on the page, making LaTeX treat it as having content.
 
 
-\section{The Idea}
+
+%
+%
+% CURRENT SPOT
+%
+%
+
+
+\section{The Motivation}
+\label{sec:the_motivation}
+There are countless practical applications of collecting data over time and storing it for later use. An application may use time-series data: a set of points where each point consists of some value and its associated time.
+
+\subsection{More Data Than Can Be Stored}
+\label{subsec:practical_applications}
+For some applications, time series data may be collected frequently, potentially many times per second. \textbf{(Give example.) } Time-series data may also be collected over the span of a long time, possibly over the course of months or years. \textbf{(Example). } Some time-series data may be both collected very frequently and for a very long time. \textbf{Example.} In these types of situations, it may be impractical to store the value and time of each data point with perfect accuracy: the data may exceed the available storage. This is especially relevant in embedded applications where there is little local storage available and no (or no reliable) network connection.
+
+\subsection{Selectively Discard Unnecessary Accuracy}
+\label{subsec:unnecessary_accuracy}
+Further, depending on the application, perfect accuracy of times and/or values may simply be unnecessary, so the extra space taken to store perfectly accurate values would be a waste of valuable storage resources. \textbf{(Example)}
+
+\section{The Idea: Best-Fit Piecewise Interpolating Polynomials}
 \label{sec:the_idea}
+As an alternative to storing exact time and value data for each point in a time-series data stream, we propose a highly adjustable, on-the-fly compression method using best-fit piecewise interpolating polynomials.
+
+\subsection{Deciding What to Fit}
+\textbf{AVOID STACKED HEADINGS: put some intro text here}
+\subsubsection{Using Best-Fit With a Common Approach}
+A common approach to storing time-series data points is to record time as the first coordinate (the "x") and to record the data value as the second coordinate (the "y"). Best-fit piecewise polynomials \textit{could} be used to encode the data given this approach. However, since time would be the independent variable, time data with perfect accuracy while reducing the accuracy of what is presumably the more precious half of the information: the data values being collected!
+
+\subsubsection{Fitting Time and Value Data Separately}
+\textbf{TODO: go back and adjust wording so that the use of the term "point" is unambiguous in all contexts. Is a point a \((t,v)\) time-to-value point, a \((\mu,t)\) $\mu$-to-\(t\) point, or a \((\mu,v)\) $\mu$-to-\(v\) point?}
+
+As an alternative, we encode the two parts of the input data readings separately: times are encoded by the \textit{Time Piecewise Polynomial} and values are encoded by the \textit{Value Piecewise Polynomial}. For both piecewise polynomials, let the independent variable $\mu$ be the zero-based index of each successive data reading, that is, the first data reading corresponds to $\mu = 0$, the second data reading corresponds to $\mu = 1$, and so on.
+
+For the points interpolated by the Time Piecewise Polynomial, let the dependent variable \(t\) be the time of the data reading with corresponding index $\mu$.
+
+For the points interpolated by the Value Piecewise Polynomial, let the dependent variable \(v\) be the value of the data reading with corresponding index $\mu$.
+
+Downsides of this approach:
+For live access to encoded data, 
+
+
+
+
 Our goal is to use a set of points to generate an aesthetically pleasing curve consisting only of circle arcs and line segments. Our method interpolates between points by interpreting pairs of points as defining circles, then drawing arcs of those circles and connecting those arcs with line segments at tangent points.
+
+\newpage
+\newpage
+\mbox{} % This puts an empty box on the page, making LaTeX treat it as having content.
+
 
 \subsection{Interpreting the Input Data Set}
 For an input data set of \( n \) points, let the \( \frac{n}{2} \) pairs of points be:
@@ -142,10 +209,10 @@ Let the odd-indexed points be the "anchor" points, the points on the circumferen
 \begin{tikzpicture}
     % Draw the circle
     \draw (0,0) circle (2cm);
-
+    
     % Label the center
     \draw (0,0) node[circle,fill,inner sep=1.5pt,label=below:$C_i$] {};
-
+    
     % Draw a point on the circumference
     \draw (135:2cm) node[circle,fill,inner sep=1.5pt,label=above left:$A_i$] {};
 \end{tikzpicture}
@@ -215,26 +282,26 @@ Fig. \ref{fig:SLRExample} shows an example resulting curve with the $S$ "Sending
         \draw (0,0) circle (2cm);
         % Draw the smaller circle
         \draw (5,0) circle (1cm);
-
-
+        
+        
         % Tangency points on the larger circle (for reference)
         \coordinate (T1) at (0.4, 1.96);
         \coordinate (T2) at (0.4, -1.96);
-
+        
         % Tangency points on the smaller circle (for reference)
         \coordinate (T3) at (5.2, 0.98);
         \coordinate (T4) at (5.2, -0.98);
-
+        
         % Draw the tangent lines (for reference)
         \draw[blue] (T1) -- (T3);
         \draw[blue] (T2) -- (T4);
-
+    
         % Internal tangency points
         \coordinate (T5) at (1.2, 1.6);
         \coordinate (T6) at (1.2, -1.6);
         \coordinate (T7) at (4.4, 0.8);
         \coordinate (T8) at (4.4, -0.8);
-
+        
         % Draw the internal tangent lines in red
         \draw[red] (T5) -- (T8);
         \draw[red] (T6) -- (T7);
@@ -268,7 +335,7 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_0$ \\
             $L_1$ \\
             $R_2$ \\
-            $A_1$
+            $A_1$ 
         \end{tabular}} &
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
             $S_0$ \\
@@ -277,7 +344,7 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_3$ \\
             $L_4$ \\
             $R_5$ \\
-            $A_2$
+            $A_2$ 
         \end{tabular}} &
         \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
             $S_0$ \\
@@ -289,7 +356,7 @@ Table \ref{tab:n_t_and_SLR_relationship} gives examples showing the relationship
             $S_6$ \\
             $L_7$ \\
             $R_8$ \\
-            $A_3$
+            $A_3$ 
         \end{tabular}} \\
         \hline
         Range of possible $t$ values & \multicolumn{1}{|c|}{\begin{tabular}[t]{@{}c@{}}
@@ -364,7 +431,7 @@ $R_8$ & $\{C_\frac{8-2}{3}, A_\frac{8-2}{3}\} = \{C_2, A_2\}$ & $\{C_\frac{8+1}{
 
 \subsubsection{Symbols and Names Local to $SLR$ Group Computation}
 \label{subsub:local_point_indices}
-Since an $SLR$ group can be computed in complete isolation, local to its computation we will refer to the sending circle as $\{C_1, A_1\}$ and the receiving circle as $\{C_2, A_2\}$. Within this context, the $\{C_1, A_1\}$ and $\{C_2, A_2\}$ names effectively "shadow" the meaning of those names outside of the local context. The authors have lots of work expressed in this local naming scheme, and have opted to continue use of it here for sanity purposes.
+Since an $SLR$ group can be computed in complete isolation, local to its computation we will refer to the sending circle as $\{C_1, A_1\}$ and the receiving circle as $\{C_2, A_2\}$. Within this context, the $\{C_1, A_1\}$ and $\{C_2, A_2\}$ names effectively "shadow" the meaning of those names outside of the local context. The authors have lots of work expressed in this local naming scheme, and have opted to continue use of it here for sanity purposes. 
 
 The computation of an $SLR$ group never refers to any points other than those defining its sending circle and receiving circle. The conversion from sub-subsection \ref{subsubsec:SLR_subscript_conversion} is the only connection between the computation of an $SLR$ group and any names from the input data set.
 
@@ -426,14 +493,14 @@ We observe a right triangle where the hypotenuse is the $Q$, $T_{1R}$ line segme
 \begin{equation}
     \label{eq:theta}
     \theta = \arccos\left(\frac{r_1 - r_2}{d}\right)
-\end{equation}
+\end{equation} 
 
 We observe that point $T_{1S}$ is at angle $-\theta$ from the $C_1$, $C_2$ line segment. We note that in general, the $C_1$, $C_2$ line segment will not be aligned with the $x$ axis. Let $\alpha$ be the angle between the $C_1$, $C_2$ line segment and the $x$ axis:
 
 \begin{equation}
     \label{eq:alpha}
     \alpha = atan2(C_2.y - C_1.y, C_2.x - C_1.x)
-\end{equation}
+\end{equation}     
 
 Where $atan2$ is the the two-argument arctangent function that returns the angle in the appropriate quadrant, taking into account the signs of both x and y.
 
@@ -449,7 +516,7 @@ Finally, we can express $T_{1S}$ in terms of known quantities:
     T_{1S}.y = C_1.y + r_1 * sin(\alpha - \theta)
 \end{equation}
 
-That is, $T_{1S}$ is distance $r_1$ from $C_1$ at angle $-\theta$, where $\alpha$ is the angle between the $C_1$, $C_2$ line segment and the $x$ axis.
+That is, $T_{1S}$ is distance $r_1$ from $C_1$ at angle $-\theta$, where $\alpha$ is the angle between the $C_1$, $C_2$ line segment and the $x$ axis. 
 
 \paragraph{Converting from Parameter $t$ to an Angle}
 Recall that the purpose of the $S$ function is to draw the arc on  circle $\{C_1, A_1\}$ from $A_1$ to $T_{1S}$. Specifically, the $S(t)$ gives the point on that arc which corresponds to the parameter $t$, where $0 \leq t < 1$. $t = 0$ corresponds to $A_1$, while $t = 1$ would correspond to $T_{1S}$.\footnote{The $S$ function operates on $0 \leq t < 1$, so it stops just short of $T_{1S}$, rather. The $L$ function will handle $T_{1S}$.}
@@ -464,14 +531,14 @@ To do this interpolation, we need both $A_1$ and $T_{1S}$ expressed as angles.\f
 \begin{equation}
     \label{eq:omega_T1S}
     \omega_{T1S} = atan2(T_{1S}.y - C_1.y, T_{1S}.x - C_1.x)
-\end{equation}
+\end{equation} 
 
 Finally, let $\Theta_S(t)$ be a function that gives the interpolated angle between $A_1$ and $T_{1S}$ for any $0 \leq t < 1$:
 
 \begin{equation}
     \label{eq:Theta_S(t)}
     \Theta_S(t) = (1-t) \omega_{A1} + t \omega_{T1S}
-\end{equation}
+\end{equation} 
 
 \paragraph{Bringing it All Together: Sending Function $S$}
 Now that we can convert directly from parameter $t$ to the corresponding angle on the sending arc, we can use that result to construct the $S$ piecewise function itself:
@@ -479,7 +546,7 @@ Now that we can convert directly from parameter $t$ to the corresponding angle o
 \begin{equation}
     \label{eq:S(t)}
     S(t) = C_1 + r_1 * ( cos( \Theta_S(t) ),  sin( \Theta_S(t) ) )
-\end{equation}
+\end{equation} 
 
 That is, for a given $t$, we return the point that is distance $r_1$ from point $C_1$ at the interpolated angle that corresponds to parameter $t$.
 
@@ -512,7 +579,7 @@ Now that we have the starting point of the line segment $T_{1S}$ and the ending 
 Interpreting $T_{1R} - T_{1S}$ as a vector from $T_{1S}$ to $T_{1R}$, $L(t)$ gives the point that is offset from the starting point $T_{1S}$ in the direction of $T_{1R} - T_{1S}$, scaled by $t$.
 
 \subsubsection{The Receiving Function $R$}
-The receiving function $R$ gives an arc on circle $\{C_2, A_2\}$ starting from tangent "receiving" point $T_{1R}$ and ending at known anchor point $A_2$. For the correct external tangent line between circle $\{C_1, A_1\}$ and circle $\{C_2, A_2\}$, $T_{1R}$ is the tangent point of the line to circle $\{C_2, A_2\}$.
+The receiving function $R$ gives an arc on circle $\{C_2, A_2\}$ starting from tangent "receiving" point $T_{1R}$ and ending at known anchor point $A_2$. For the correct external tangent line between circle $\{C_1, A_1\}$ and circle $\{C_2, A_2\}$, $T_{1R}$ is the tangent point of the line to circle $\{C_2, A_2\}$. 
 
 Specifically, $R(t)$ gives the point on that arc which corresponds to the parameter $t$, where $0 \leq t < 1$. $t = 0$ corresponds to $T_{1R}$, while $t = 1$ would correspond to $A_{2}$.\footnote{The $R$ function operates on $0 \leq t < 1$, so it stops just short of $A_2$. The final point of the curve is plotted directly by the piecewise definition of $\overrightarrow{O}(t)$ without using any of the $SLR$ functions. }
 
@@ -540,7 +607,7 @@ Now that we can convert directly from parameter $t$ to the corresponding angle o
 \begin{equation}
     \label{eq:R(t)}
     R(t) = C_2 + r_2 * (cos( \Theta_R(t) ), sin( \Theta_R(t) ))
-\end{equation}
+\end{equation} 
 
 That is, for a given $t$, we return the point that is distance $r_2$ from point $C_2$ at the interpolated angle that corresponds to parameter $t$.
 
@@ -619,6 +686,7 @@ Rotated $60^\circ$ & Rotated $180^\circ$ \\ % Optional captions
 \label{fig:axis_agnostic}
 \end{figure}
 \end{center}
+
 
 \section{Limitations}
 There are many prerequisites to using our method that are described in section \ref{sec:the_idea}. A given set of points is not generally valid input.
