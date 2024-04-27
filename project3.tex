@@ -16,9 +16,35 @@
 \usepackage{caption} % for being able to put a title for a figure above it (in addition to the caption below it)
 
 
+\usepackage{titlesec} % so we can have subsubsubsection
 
-\title{MAT 357-557 Numerical Analysis Project 3}
-\author{Austin Zhu, Brillan MORGAN, Bhargav Vundavalli}
+% Setup sectioning commands
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+
+% Define subsubsubsection
+\titleclass{\subsubsubsection}{straight}[\subsubsection]
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand{\thesubsubsubsection}{\thesubsubsection.\arabic{subsubsubsection}}
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection\quad}{0em}{#1\newline}
+\titlespacing*{\subsubsubsection}
+  {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Adjust depth of section numbering and TOC inclusion
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+
+
+\title{MAT 357/557 Numerical Analysis Project 3}
+\author{Austin Zhu, Brillan Morgan, Bhargav Vundavalli}
 \date{Spring 2024}
 
 \begin{document}
@@ -42,18 +68,46 @@
 \textbf{AVOID STACKED HEADINGS}
 
 \subsection{Data Points and their Indices}
-The primary values handled by the system are the data points that the system was designed to compress. Each data point consists of two values: a time \(t\) and a reading \(r\), which can be expressed as a coordinate pair \((t, r)\).
+Our system compresses a sequence of data points on-the-fly, by processing each one as it arrives. Let \(p\) be an arbitrary data point handled by the system. Let its first coordinate \(t_p\) be its time value, and let its second coordinate \(s_p\) be its sample value:
 
-The reading \(r\) value of a data point is a scalar value; it is the measurement of some real-world quantity reported by data source (a sensor, gauge, etc.). \textbf{(Examples.)}
+\[ p = (t_p, s_p) \]
 
-The time \(t\) value of a data point is the timestamp associated with the reading, which is typically the time at which the reading was collected. The system supports any unit of time (ms, seconds, minutes, etc.) and both fixed and variable intervals between readings. The system does not require an initial time value of t = 0. Time values are expected to be monotonically increasing, that is, time will not go backwards.
+The sample value \(s_p\) is a scalar; it is an individual measurement of some real-world quantity reported by a data source (sensor, gauge, etc.).
 
-mu, the zero-based index of each data point, assigned to the point by the system when the system receives the point. The first index of a data stream is mu = 0. The second index of a data stream is mu = 1, and so on. Each mu is permanantly associated only with its initial data point. All indicies are unique.
+The time value \(t_p\) is the timestamp associated with the sample, which is generally the time at which the sample was collected. The system supports any unit of time (miliseconds, seconds, minutes, etc.), as well as fixed or variable intervals between readings. The system does \textit{not} require an initial time value of \(t = 0\). Time values are expected to be monotonically increasing, which means that time must not go backwards.
+
+A zero-based index is assigned to each data point when it is received by the system. Let \(\mu_p\) be the index of data point \(p\).
+The index for the first data point of the stream is \(\mu = 0\), the index for the second point is \(\mu = 1\), and so on. If the total count of data points received so far is \(n\), then the index of the most recent point is \(\mu = n-1\). Each index is permanently associated only with assigned data point. All indicies are unique.
 
 \subsection{Overview of Data Representations}
-There are three possible representations for a given data point in the system: actual, encoded and decoded.
-\subsubsection{Actual Data Points}
-We will refer to raw, uncompressed data points as actual data points. 
+There are three possible representations for any given data point in the system: \textit{actual}, \textit{encoded} and \textit{decoded}.
+\subsubsection{Actual Data Point Representation}
+We refer to the raw, uncompressed representation of the time and sample values of a data point as their actual time and actual sample values, respectively.
+For data point \(p\), let its actual time value be \(t_{p_{actual}}\), and let its actual sample value be \(s_{p_{actual}}\). Actual data point values are exactly equal to the values that were originally reported from the data source.
+
+\subsubsection{Compressed and Decompressed Data Point Representations}
+After the system compresses data point \(p\), then \(p\) can be represented by its index \(\mu_p\) and the coefficents of the two associated fitted curves. \newline
+
+\textbf{\thesubsubsubsection{    Time Piecewise Polynomial (TPP)}} /par
+The Time Piecewise Polynomial (TPP) is the piecewise curve used to compress the time values of all data points. The independent variable of the TPP is the index \(\mu\) of the data point. The dependent variable of the TPP is the time \(t\) of the data point.
+
+Let \(k_T\) be the degree of all fitted curves in the Time Piecewise Polynomial.
+
+Let the coefficents of each fitted curve Time Piecewise Polynomial denoted as:
+
+\[ [ \tau_{i_{0}}, \tau_{i_{1}} ] \]
+
+
+Let \(n_T\) be current count of all fitted curves in the Time Piecewise Polynomial.
+
+Where \(i\) is the smallest index \(\mu\) whose data point is represented by the same curve. The linear term coefficent is \(\tau_{i_{0}}\), and the constant term coefficent is \(\tau_{i_{1}}\). Thus, the decoded representation of the point with index \(\mu_k\) could be calculated by the equation:
+
+\[ T_i(\mu) = \tau_{i_{0}}\mu + \tau_{i_{1}} \]
+
+
+\subsection{Decoded Data Point Representation}
+
+
 
 \subsection{If and When Actual Data Points can be Discarded}
 \label{subsec:when_can_discard_point_coords}
@@ -65,11 +119,11 @@ The y value (if not also the t value) of a data point can be discarded as soon a
 
 \section{The Decoding}
 
-\section{Parameters of the Method}
+\section{Parameters of the System}
 1D time series data: (time, atmospheric pressure).
 Compression is lossy.
-Our method is based on best-fit curves interpolation: the method of least squares.
-Our method is not "axis-agnostic:" when measuring error, we measure the distance from each actual data value to its fitted curve parallel with the vertical axis.
+Our system is based on best-fit curves interpolation: the method of least squares.
+Our system is not "axis-agnostic:" when measuring error, we measure the distance from each actual data value to its fitted curve parallel with the vertical axis.
 
 \section{Compression Ratio}
 During an actual time-series streaming data scenario, there would be no complete, uncompressed, "before" data file on disk to compare our compression results to. For the purpose of this project, we do begin with a complete, uncompressed input data file that we use to simulate the streaming data scenario: we operate on each actual data point from the input sequentially, one at a time, without "peeking" at points that "haven't arrived yet." Our compression ratio comparisons are based on how large the complete, uncompressed data file would be on disk \textit{if} it were stored, which it would not be in practice.
@@ -77,7 +131,7 @@ During an actual time-series streaming data scenario, there would be no complete
 
 
 \section{Demonstrations}
-(since our method is lossy, we must show “before and after” photos)
+(since our system is lossy, we must show “before and after” photos)
 
 \section{Limitations}
 \subsection{Exceptional Cases}
@@ -99,7 +153,7 @@ Hopefully this isn’t an issue for the client, as all of the queried y values w
 \subsection{Size Comparison (for Compression section)}
 Initially, compare theoretical data sizes in bytes between the raw data and the encoded/compressed data (coefficients for the k polynomial of each segment, start time t of each segment, any other metadata required to decode/decompress).
 
-Eventually, actually write the data to file to compare file sizes on disk. Suggest using a simple text file with spaces and newlines as delimiters, rather than doing more elaborate compression on top of our basic scheme. There is enough complexity in our method as it is.
+Eventually, actually write the data to file to compare file sizes on disk. Suggest using a simple text file with spaces and newlines as delimiters, rather than doing more elaborate compression on top of our basic scheme. There is enough complexity in our system as it is.
 We could mention ideas for further compression in the “Possible Extensions” section.
 
 \subsection{Time-Delay Simulation}
@@ -139,13 +193,6 @@ But what about time values? Thanks to our parametric definition, there is no rea
 
 
 
-%
-%
-% CURRENT SPOT
-%
-%
-
-
 \section{The Motivation}
 \label{sec:the_motivation}
 There are countless practical applications of collecting data over time and storing it for later use. An application may use time-series data: a set of points where each point consists of some value and its associated time.
@@ -160,7 +207,7 @@ Further, depending on the application, perfect accuracy of times and/or values m
 
 \section{The Idea: Best-Fit Piecewise Interpolating Polynomials}
 \label{sec:the_idea}
-As an alternative to storing exact time and value data for each point in a time-series data stream, we propose a highly adjustable, on-the-fly compression method using best-fit piecewise interpolating polynomials.
+As an alternative to storing exact time and value data for each point in a time-series data stream, we propose a highly adjustable, on-the-fly compression system using best-fit piecewise interpolating polynomials.
 
 \subsection{Deciding What to Fit}
 \textbf{AVOID STACKED HEADINGS: put some intro text here}
@@ -170,11 +217,11 @@ A common approach to storing time-series data points is to record time as the fi
 \subsubsection{Fitting Time and Value Data Separately}
 \textbf{TODO: go back and adjust wording so that the use of the term "point" is unambiguous in all contexts. Is a point a \((t,v)\) time-to-value point, a \((\mu,t)\) $\mu$-to-\(t\) point, or a \((\mu,v)\) $\mu$-to-\(v\) point?}
 
-As an alternative, we encode the two parts of the input data readings separately: times are encoded by the \textit{Time Piecewise Polynomial} and values are encoded by the \textit{Value Piecewise Polynomial}. For both piecewise polynomials, let the independent variable $\mu$ be the zero-based index of each successive data reading, that is, the first data reading corresponds to $\mu = 0$, the second data reading corresponds to $\mu = 1$, and so on.
+As an alternative, we encode the two parts of the input data readings separately: times are encoded by the \textit{Time Piecewise Polynomial} and values are encoded by the \textit{Value Piecewise Polynomial}. For both piecewise polynomials, let the independent variable $\mu$ be the zero-based index of each successive data sample, that is, the first data sample corresponds to $\mu = 0$, the second data sample corresponds to $\mu = 1$, and so on.
 
-For the points interpolated by the Time Piecewise Polynomial, let the dependent variable \(t\) be the time of the data reading with corresponding index $\mu$.
+For the points interpolated by the Time Piecewise Polynomial, let the dependent variable \(t\) be the time of the data sample with corresponding index $\mu$.
 
-For the points interpolated by the Value Piecewise Polynomial, let the dependent variable \(v\) be the value of the data reading with corresponding index $\mu$.
+For the points interpolated by the Value Piecewise Polynomial, let the dependent variable \(v\) be the value of the data sample with corresponding index $\mu$.
 
 Downsides of this approach:
 For live access to encoded data, 
