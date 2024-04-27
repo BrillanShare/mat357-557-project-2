@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.3.31) (preloaded format=pdflatex 2024.4.25)  26 APR 2024 18:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.3.31) (preloaded format=pdflatex 2024.4.25)  26 APR 2024 18:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -931,7 +931,7 @@ Or maybe a } was forgotten somewhere earlier, and things
 are all screwed up? I'm going to assume that you meant ##.
 
 Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 50.
+h' as default language. on input line 54.
 (C:/Users\Brillan\repos\mat357-557-project-2\out\project3.aux
 
 LaTeX Warning: Label `fig:does_not_create_a_corner' multiply defined.
@@ -939,24 +939,24 @@ LaTeX Warning: Label `fig:does_not_create_a_corner' multiply defined.
 )
 \openout1 = `project3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
  (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count377
@@ -980,8 +980,8 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 50.
-Package hyperref Info: Link coloring OFF on input line 50.
+or `english'. on input line 54.
+Package hyperref Info: Link coloring OFF on input line 54.
 
 (C:/Users\Brillan\repos\mat357-557-project-2\out\project3.out)
 (C:/Users\Brillan\repos\mat357-557-project-2\out\project3.out)
@@ -993,7 +993,7 @@ Package caption Info: End \AtBeginDocument code.
 <Plots/CoverPlot.png, id=202, 1003.75pt x 1003.75pt>
 File: Plots/CoverPlot.png Graphic file (type png)
 <use Plots/CoverPlot.png>
-Package pdftex.def Info: Plots/CoverPlot.png  used on input line 55.
+Package pdftex.def Info: Plots/CoverPlot.png  used on input line 59.
 (pdftex.def)             Requested size: 345.0pt x 345.00758pt.
  [1
 
@@ -1006,12 +1006,12 @@ Non-PDF special ignored!
 <special> ps:tx@Dict begin  gsave STV CP T /ps@refangle 0.  def grestore  e...
 {C:/Users/Brillan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./Plots/Co
 verPlot.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
+Underfull \hbox (badness 10000) in paragraph at lines 93--94
 
  []
 
 [2] [3] [4]
-Overfull \hbox (4.19502pt too wide) in paragraph at lines 154--155
+Overfull \hbox (4.19502pt too wide) in paragraph at lines 158--159
 \OT1/cmr/m/n/10 start time t of each seg-ment, any other meta-data re-quired to
  de-code/decompress). 
  []
@@ -1020,35 +1020,35 @@ Overfull \hbox (4.19502pt too wide) in paragraph at lines 154--155
 <NoCorner.png, id=239, 1554.55782pt x 1297.09593pt>
 File: NoCorner.png Graphic file (type png)
 <use NoCorner.png>
-Package pdftex.def Info: NoCorner.png  used on input line 184.
+Package pdftex.def Info: NoCorner.png  used on input line 188.
 (pdftex.def)             Requested size: 345.0pt x 287.85579pt.
  [6] [7 <./NoCorner.png>] [8] [9] [10]
 File: NoCorner.png Graphic file (type png)
 <use NoCorner.png>
-Package pdftex.def Info: NoCorner.png  used on input line 311.
+Package pdftex.def Info: NoCorner.png  used on input line 315.
 (pdftex.def)             Requested size: 345.0pt x 287.85579pt.
 <FigureXExampleOfSLR_Cropped.png, id=272, 2232.08907pt x 1199.98312pt>
 File: FigureXExampleOfSLR_Cropped.png Graphic file (type png)
 <use FigureXExampleOfSLR_Cropped.png>
-Package pdftex.def Info: FigureXExampleOfSLR_Cropped.png  used on input line 31
-9.
+Package pdftex.def Info: FigureXExampleOfSLR_Cropped.png  used on input line 32
+3.
 (pdftex.def)             Requested size: 345.0pt x 185.46446pt.
  [11] [12]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 360.
+(hyperref)                removing `math shift' on input line 364.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 360.
+(hyperref)                removing `math shift' on input line 364.
 
 [13 <./FigureXExampleOfSLR_Cropped.png>]
-Overfull \hbox (10.77112pt too wide) in paragraph at lines 366--426
+Overfull \hbox (10.77112pt too wide) in paragraph at lines 370--430
  [][] 
  []
 
 
-Overfull \hbox (13.64954pt too wide) in paragraph at lines 431--432
+Overfull \hbox (13.64954pt too wide) in paragraph at lines 435--436
 \OT1/cmr/m/n/10 Consider the sce-nario where the po-si-tion of an-chor point $\
 OML/cmm/m/it/10 A[]$ \OT1/cmr/m/n/10 on cir-cle $\OMS/cmsy/m/n/10 f\OML/cmm/m/i
 t/10 C[]; A[]\OMS/cmsy/m/n/10 g$
@@ -1057,177 +1057,177 @@ t/10 C[]; A[]\OMS/cmsy/m/n/10 g$
 [14]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 441.
+(hyperref)                removing `math shift' on input line 445.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 441.
+(hyperref)                removing `math shift' on input line 445.
 
 
-Overfull \hbox (5.59525pt too wide) in paragraph at lines 466--475
+Overfull \hbox (5.59525pt too wide) in paragraph at lines 470--479
  [][] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `math shift' on input line 483.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 479.
+(hyperref)                removing `math shift' on input line 483.
 
 [15]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 489.
+(hyperref)                removing `math shift' on input line 493.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 489.
+(hyperref)                removing `math shift' on input line 493.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 495.
+(hyperref)                removing `math shift' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 495.
+(hyperref)                removing `math shift' on input line 499.
 
 <SLRPrimary.png, id=317, 1105.12875pt x 655.69969pt>
 File: SLRPrimary.png Graphic file (type png)
 <use SLRPrimary.png>
-Package pdftex.def Info: SLRPrimary.png  used on input line 503.
+Package pdftex.def Info: SLRPrimary.png  used on input line 507.
 (pdftex.def)             Requested size: 345.0pt x 204.69554pt.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 508.
+(hyperref)                removing `math shift' on input line 512.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 508.
+(hyperref)                removing `subscript' on input line 512.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 508.
+(hyperref)                removing `math shift' on input line 512.
 
 [16] [17 <./SLRPrimary.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 568.
+(hyperref)                removing `math shift' on input line 572.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 568.
+(hyperref)                removing `math shift' on input line 572.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 590.
+(hyperref)                removing `math shift' on input line 594.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 590.
+(hyperref)                removing `math shift' on input line 594.
 
 [18]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 601.
+(hyperref)                removing `math shift' on input line 605.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 601.
+(hyperref)                removing `math shift' on input line 605.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 628.
+(hyperref)                removing `math shift' on input line 632.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 628.
+(hyperref)                removing `math shift' on input line 632.
 
 [19]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 662.
+(hyperref)                removing `math shift' on input line 666.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 662.
+(hyperref)                removing `subscript' on input line 666.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 662.
+(hyperref)                removing `\begingroup' on input line 666.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\endgroup' on input line 662.
+(hyperref)                removing `\endgroup' on input line 666.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@@over' on input line 662.
+(hyperref)                removing `\@@over' on input line 666.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 662.
+(hyperref)                removing `math shift' on input line 666.
 
 <Plots/DemoPlot1.png, id=366, 642.4pt x 481.8pt>
 File: Plots/DemoPlot1.png Graphic file (type png)
 <use Plots/DemoPlot1.png>
-Package pdftex.def Info: Plots/DemoPlot1.png  used on input line 673.
+Package pdftex.def Info: Plots/DemoPlot1.png  used on input line 677.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot2.png, id=367, 642.4pt x 481.8pt>
 File: Plots/DemoPlot2.png Graphic file (type png)
 <use Plots/DemoPlot2.png>
-Package pdftex.def Info: Plots/DemoPlot2.png  used on input line 674.
+Package pdftex.def Info: Plots/DemoPlot2.png  used on input line 678.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot4.png, id=368, 642.4pt x 481.8pt>
 File: Plots/DemoPlot4.png Graphic file (type png)
 <use Plots/DemoPlot4.png>
-Package pdftex.def Info: Plots/DemoPlot4.png  used on input line 677.
+Package pdftex.def Info: Plots/DemoPlot4.png  used on input line 681.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot5.png, id=369, 642.4pt x 481.8pt>
 File: Plots/DemoPlot5.png Graphic file (type png)
 <use Plots/DemoPlot5.png>
-Package pdftex.def Info: Plots/DemoPlot5.png  used on input line 678.
+Package pdftex.def Info: Plots/DemoPlot5.png  used on input line 682.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/ShowcasePlot1.png, id=371, 642.4pt x 481.8pt>
 File: Plots/ShowcasePlot1.png Graphic file (type png)
 <use Plots/ShowcasePlot1.png>
-Package pdftex.def Info: Plots/ShowcasePlot1.png  used on input line 694.
+Package pdftex.def Info: Plots/ShowcasePlot1.png  used on input line 698.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/ShowcasePlot4.png, id=372, 642.4pt x 481.8pt>
 File: Plots/ShowcasePlot4.png Graphic file (type png)
 <use Plots/ShowcasePlot4.png>
-Package pdftex.def Info: Plots/ShowcasePlot4.png  used on input line 695.
+Package pdftex.def Info: Plots/ShowcasePlot4.png  used on input line 699.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/ShowcasePlot2.png, id=373, 642.4pt x 481.8pt>
 File: Plots/ShowcasePlot2.png Graphic file (type png)
 <use Plots/ShowcasePlot2.png>
-Package pdftex.def Info: Plots/ShowcasePlot2.png  used on input line 698.
+Package pdftex.def Info: Plots/ShowcasePlot2.png  used on input line 702.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/ShowcasePlot3.png, id=374, 642.4pt x 481.8pt>
 File: Plots/ShowcasePlot3.png Graphic file (type png)
 <use Plots/ShowcasePlot3.png>
-Package pdftex.def Info: Plots/ShowcasePlot3.png  used on input line 699.
+Package pdftex.def Info: Plots/ShowcasePlot3.png  used on input line 703.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 [20]
 File: Plots/DemoPlot5.png Graphic file (type png)
 <use Plots/DemoPlot5.png>
-Package pdftex.def Info: Plots/DemoPlot5.png  used on input line 723.
+Package pdftex.def Info: Plots/DemoPlot5.png  used on input line 727.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot5Rotate30.png, id=386, 642.4pt x 481.8pt>
 File: Plots/DemoPlot5Rotate30.png Graphic file (type png)
 <use Plots/DemoPlot5Rotate30.png>
-Package pdftex.def Info: Plots/DemoPlot5Rotate30.png  used on input line 724.
+Package pdftex.def Info: Plots/DemoPlot5Rotate30.png  used on input line 728.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot5Rotate60.png, id=387, 642.4pt x 481.8pt>
 File: Plots/DemoPlot5Rotate60.png Graphic file (type png)
 <use Plots/DemoPlot5Rotate60.png>
-Package pdftex.def Info: Plots/DemoPlot5Rotate60.png  used on input line 727.
+Package pdftex.def Info: Plots/DemoPlot5Rotate60.png  used on input line 731.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
 <Plots/DemoPlot5Rotate180.png, id=388, 642.4pt x 481.8pt>
 File: Plots/DemoPlot5Rotate180.png Graphic file (type png)
 <use Plots/DemoPlot5Rotate180.png>
-Package pdftex.def Info: Plots/DemoPlot5Rotate180.png  used on input line 728.
+Package pdftex.def Info: Plots/DemoPlot5Rotate180.png  used on input line 732.
 (pdftex.def)             Requested size: 137.9979pt x 103.49675pt.
  [21 <./Plots/DemoPlot1.png (PNG copy)> <./Plots/DemoPlot2.png (PNG copy)> <./P
 lots/DemoPlot4.png (PNG copy)> <./Plots/DemoPlot5.png (PNG copy)>] [22 <./Plots
