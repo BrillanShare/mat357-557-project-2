@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b39377d-63ae-4a73-8472-49958e15b771" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/austin_inside_tangents.py" beforeDir="false" afterPath="$PROJECT_DIR$/austin_inside_tangents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/austin_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/austin_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auxil/project3.aux" beforeDir="false" afterPath="$PROJECT_DIR$/auxil/project3.aux" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auxil/project3.log" beforeDir="false" afterPath="$PROJECT_DIR$/auxil/project3.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auxil/project3.out" beforeDir="false" afterPath="$PROJECT_DIR$/auxil/project3.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/on-the-fly-with-coeffs.py" beforeDir="false" afterPath="$PROJECT_DIR$/on-the-fly-with-coeffs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project3.tex" beforeDir="false" afterPath="$PROJECT_DIR$/project3.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,17 +43,24 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;LaTeX.Latex.executor&quot;: &quot;Run&quot;,
+    &quot;Python.BestFitLine.executor&quot;: &quot;Run&quot;,
     &quot;Python.austin_inside_tangents.executor&quot;: &quot;Run&quot;,
     &quot;Python.austin_new.executor&quot;: &quot;Run&quot;,
     &quot;Python.chatgpt_sandbox.executor&quot;: &quot;Run&quot;,
     &quot;Python.cubic_spline.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dynamic-segmentation.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.on-the-fly-compress.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.on-the-fly-with-coeffs.executor&quot;: &quot;Debug&quot;,
     &quot;Python.slingshot.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brillan/Desktop/Spring 2024/mat557 - Numerical Analysis/Project 2/Plots&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brillan/repos/mat357-557-project-2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -58,7 +70,29 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="LaTeX.Latex">
+    <configuration name="Latex" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <sumatra-path />
+        <pdf-viewer>NONE</pdf-viewer>
+        <viewer-command />
+        <compiler-arguments />
+        <envs />
+        <before-run-command />
+        <main-file>$PROJECT_DIR$/project3.tex</main-file>
+        <output-path>$PROJECT_DIR$/out</output-path>
+        <auxil-path>$PROJECT_DIR$/auxil</auxil-path>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <latex-distribution>MIKTEX</latex-distribution>
+        <has-been-run>true</has-been-run>
+        <bib-run-config>[]</bib-run-config>
+        <makeindex-run-config>[]</makeindex-run-config>
+      </texify>
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="mat357-557-project-2" />
       <option name="ENV_FILES" value="" />
@@ -82,11 +116,16 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="LaTeX.Latex" />
+      <item itemvalue="Python.main" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PY-241.15989.155" />
+        <option value="bundled-python-sdk-babbdf50b680-7c6932dee5e4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.15989.155" />
       </set>
     </attachedChunks>
   </component>
@@ -117,6 +156,17 @@
       <workItem from="1711591506373" duration="7119000" />
       <workItem from="1712126141888" duration="11578000" />
       <workItem from="1712241442322" duration="106000" />
+      <workItem from="1712691665679" duration="20000" />
+      <workItem from="1712691694859" duration="118000" />
+      <workItem from="1712691874374" duration="2839000" />
+      <workItem from="1712868403486" duration="2854000" />
+      <workItem from="1713080018669" duration="52651000" />
+      <workItem from="1713216477454" duration="7496000" />
+      <workItem from="1714108801736" duration="1650000" />
+      <workItem from="1714110481330" duration="588000" />
+      <workItem from="1714111086121" duration="56034000" />
+      <workItem from="1714527626969" duration="2734000" />
+      <workItem from="1716011511824" duration="13000" />
     </task>
     <servers />
   </component>
@@ -172,11 +222,15 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$main.coverage" NAME="main Coverage Results" MODIFIED="1709942813577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$BestFitLine.coverage" NAME="BestFitLine Coverage Results" MODIFIED="1712902187393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mat357_557_project_2$slingshot.coverage" NAME="slingshot Coverage Results" MODIFIED="1710285112699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mat357_557_project_2$austin_inside_tangents.coverage" NAME="austin_inside_tangents Coverage Results" MODIFIED="1711421625241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$on_the_fly_with_coeffs.coverage" NAME="on-the-fly-with-coeffs Coverage Results" MODIFIED="1714527774956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$dynamic_segmentation.coverage" NAME="dynamic-segmentation Coverage Results" MODIFIED="1713209324690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mat357_557_project_2$cubic_spline.coverage" NAME="cubic_spline Coverage Results" MODIFIED="1709609830933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mat357_557_project_2$chatgpt_sandbox.coverage" NAME="chatgpt_sandbox Coverage Results" MODIFIED="1709942829857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mat357_557_project_2$main.coverage" NAME="main Coverage Results" MODIFIED="1709942813577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mat357_557_project_2$austin_new.coverage" NAME="austin_new Coverage Results" MODIFIED="1712179080849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$austin_new.coverage" NAME="austin_new Coverage Results" MODIFIED="1712697692990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mat357_557_project_2$on_the_fly_compress.coverage" NAME="on-the-fly-compress Coverage Results" MODIFIED="1714527757539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

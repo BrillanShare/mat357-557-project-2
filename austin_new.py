@@ -4,6 +4,8 @@ import math
 import matplotlib.pyplot as plt
 from types import SimpleNamespace as Namespace
 
+import requests
+
 # show extra information
 TEXT_DEBUG = False
 PLOT_DEBUG = False
@@ -381,6 +383,4 @@ def main():
     #plt.tight_layout()
     plt.show()
 
-if __name__ == "__main__":
-    # Execute main() only if the script is run directly, not if it's imported as a module
-    main()
+
